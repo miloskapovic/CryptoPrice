@@ -1,12 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Table } from 'react-bootstrap';
-import { connect } from 'react-redux'
-import { fetchCryptos } from '../store/actions/index'
 
-const CryptoTable = (props) => {
-
-    useEffect(() => props.onFetchCryptos(), [])
-    console.log('cryptos', props.cryptos)
+const CurrencyPicker = () => {
     let content = (
         <Table striped bordered hover>
             <thead>
@@ -41,17 +36,4 @@ const CryptoTable = (props) => {
     return content
 };
 
-const mapStateToProps = state => {
-    return {
-        cryptos: state.crypto.cryptos,
-        loading: state.crypto.loading
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        onFetchCryptos: () => dispatch( fetchCryptos() )
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CryptoTable);
+export default CurrencyPicker;
