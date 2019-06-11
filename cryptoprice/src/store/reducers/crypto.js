@@ -12,7 +12,7 @@ const fetchCryptosStart = ( state, action ) => {
 
 const fetchCryptosSuccess = ( state, action ) => {
     return updateObject( state, {
-        orders: action.orders,
+        cryptos: action.cryptos,
         loading: false
     } );
 };

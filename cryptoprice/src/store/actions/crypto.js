@@ -24,5 +24,21 @@ export const fetchCryptosStart = () => {
 export const fetchCryptos = () => {
     return dispatch => {
         dispatch(fetchCryptosStart());
+        axios.get( 'http://localhost:3003/api/crypto' )
+        .then( res => {
+            console.log('odgovor', res)
+            const fetchedCryptos = [];
+            for ( let key in res.data.data ) {
+                fetchedCryptos.push( {
+                    ...res.data.data[key],
+                    id: key
+                } );
+            }
+            console.log('jeeeee', fetchedCryptos)
+            dispatch(fetchCryptosSuccess(res.data.data));
+        } )
+        .catch( err => {
+            dispatch(fetchCryptosFail(err));
+        } );
     };
 };
