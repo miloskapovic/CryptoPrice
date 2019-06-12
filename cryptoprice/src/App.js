@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from 'react-redux'
 
-import CurrencyPicker from './components/CurrencyPicker'
+import { fetchCryptos } from './store/actions/index'
 import CryptocurrencyList from './components/CryptocurrencyList'
 import CryptocurrencyDetails from './components/CryptocurrencyDetails'
 import Settings from './components/Settings'
@@ -17,17 +18,18 @@ const StyledNavbar = styled(Navbar)`
   overflow: hidden;
 `;
 
-function App() {
+function App(props) {
+  useEffect(() => props.onFetchCryptos(), [])
   const [selectedCurrency, setCurrency] = useState('USD');
-  console.log('selectedCur', selectedCurrency)
+  const { cryptos } = props
   return (
     <Container fluid>
       <Router>
-      <StyledNavbar />
+      <StyledNavbar cryptos={props.cryptos}/>
       <Switch>
-      <Route exact path="/" component={CryptocurrencyList} />
-      <Route path="/details" component={CryptocurrencyDetails} />
-      <Route path="/settings" component={Settings} />
+      <Route exact path="/" render={(props) => <CryptocurrencyList {...props} cryptos={cryptos} selectedCurrency={selectedCurrency} />} />
+      <Route path="/details" render={(props) => <CryptocurrencyDetails {...props} cryptos={cryptos} selectedCurrency={selectedCurrency} />} />
+      <Route path="/settings" render={(props) => <Settings {...props} setCurrency={setCurrency} selectedCurrency={selectedCurrency}/>}/>
       </Switch>
       </Router>
     </Container>
@@ -35,4 +37,17 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+      cryptos: state.crypto.cryptos,
+      loading: state.crypto.loading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onFetchCryptos: () => dispatch( fetchCryptos() )
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

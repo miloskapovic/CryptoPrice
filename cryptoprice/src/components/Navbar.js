@@ -3,6 +3,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 
 const CurrencyPicker = (props) => {
+    console.log('nav', props)
     let content = (
         <Navbar bg="dark" variant="dark">
             <Navbar.Brand href="#home">CryptoPrice</Navbar.Brand>
