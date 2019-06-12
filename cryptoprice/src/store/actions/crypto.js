@@ -21,12 +21,13 @@ export const fetchCryptosStart = () => {
     };
 };
 
-export const fetchCryptos = () => {
+export const fetchCryptos = (currency) => {
     return dispatch => {
         dispatch(fetchCryptosStart());
-        axios.get( 'http://localhost:3003/api/crypto' )
+        axios.get('http://localhost:3003/api/crypto', {params: {
+            currency: currency
+          }})
         .then( res => {
-            console.log('odgovor', res)
             const fetchedCryptos = [];
             for ( let key in res.data.data ) {
                 fetchedCryptos.push( {

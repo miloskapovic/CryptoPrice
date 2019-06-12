@@ -19,8 +19,8 @@ const StyledNavbar = styled(Navbar)`
 `;
 
 function App(props) {
-  useEffect(() => props.onFetchCryptos(), [])
   const [selectedCurrency, setCurrency] = useState('USD');
+  useEffect(() => props.onFetchCryptos(selectedCurrency), [selectedCurrency])
   const { cryptos } = props
   return (
     <Container fluid>
@@ -46,7 +46,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      onFetchCryptos: () => dispatch( fetchCryptos() )
+      onFetchCryptos: (selectedCurrency) => dispatch( fetchCryptos(selectedCurrency) )
   };
 };
 

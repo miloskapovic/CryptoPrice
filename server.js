@@ -7,13 +7,14 @@ const app = express();
 app.use(cors());
 
 app.get('/api/crypto', (req, res) => {
+    console.log('request', req.query.currency)
     const requestOptions = {
         method: 'GET',
         uri: 'https://sandbox-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
         qs: {
           'start': '1',
           'limit': '100',
-          'convert': 'USD'
+          'convert': req.query.currency
         },
         headers: {
           'X-CMC_PRO_API_KEY': 'd46077a7-2259-4929-8426-bc746ff8b5d1'
@@ -23,7 +24,6 @@ app.get('/api/crypto', (req, res) => {
       };
       
       rp(requestOptions).then(response => {
-        console.log('API call response:', response);
         res.json(response)
       }).catch((err) => {
         console.log('API call error:', err.message);
