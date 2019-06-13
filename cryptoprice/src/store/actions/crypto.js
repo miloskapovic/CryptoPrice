@@ -24,7 +24,7 @@ export const fetchCryptosStart = () => {
 export const fetchCryptos = (currency) => {
     return dispatch => {
         dispatch(fetchCryptosStart());
-        axios.get('http://localhost:3003/api/crypto', {params: {
+        axios.get('http://localhost:3003/api/cryptos', {params: {
             currency: currency
           }})
         .then( res => {
@@ -39,6 +39,49 @@ export const fetchCryptos = (currency) => {
         } )
         .catch( err => {
             dispatch(fetchCryptosFail(err));
+        } );
+    };
+};
+
+export const fetchCryptoSuccess = ( crypto ) => {
+    return {
+        type: actionTypes.FETCH_CRYPTO_SUCCESS,
+        crypto: crypto
+    };
+};
+
+export const fetchCryptoFail = ( error ) => {
+    return {
+        type: actionTypes.FETCH_CRYPTO_FAIL,
+        error: error
+    };
+};
+
+export const fetchCryptoStart = () => {
+    return {
+        type: actionTypes.FETCH_CRYPTO_START
+    };
+};
+
+export const fetchCrypto = (currency, id) => {
+    return dispatch => {
+        dispatch(fetchCryptoStart());
+        axios.get('http://localhost:3003/api/crypto', {params: {
+            currency: currency,
+            id: id
+          }})
+        .then( res => {
+            const fetchedCryptos = [];
+            for ( let key in res.data.data ) {
+                fetchedCryptos.push( {
+                    ...res.data.data[key],
+                    id: key
+                } );
+            }
+            dispatch(fetchCryptoSuccess(res.data.data));
+        } )
+        .catch( err => {
+            dispatch(fetchCryptoFail(err));
         } );
     };
 };

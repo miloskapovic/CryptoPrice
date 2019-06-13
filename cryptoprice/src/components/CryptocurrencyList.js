@@ -1,6 +1,11 @@
-import React from 'react';
-import { Table, Button, Container, Spinner } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Table, Button, Container } from 'react-bootstrap';
+import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
+
+import { fetchCryptos } from '../store/actions/index'
+import LoadingSpinner from './LoadingSpinner'
 
 const StyledButton = styled(Button)`
     margin: 5px;
@@ -8,24 +13,25 @@ const StyledButton = styled(Button)`
 `
 
 const CryptocurrencyList = (props) => {
-    const { cryptos, selectedCurrency, getSelectedCrypto, refreshCryptos } = props
-    const bitcoin = cryptos ? cryptos.find(crypto => crypto.symbol === 'BTC') : null
+    const { cryptos, selectedCurrency, refreshCryptos, loading, onFetchCryptos } = props
+    console.log('selectedCurrency', loading)
 
-    const cryptosList = cryptos ? cryptos.map(crypto =>
-        <tr onClick={() => getSelectedCrypto(crypto, bitcoin)}>
+    useEffect(() => onFetchCryptos(selectedCurrency), [selectedCurrency, onFetchCryptos])
+
+    const getSelectedCrypto = (selectedCryptoId) => {
+        // setCryptoId(selectedCryptoId)
+        props.history.push('/details')
+    }
+    const cryptosList = cryptos && cryptos.map(crypto =>
+        <tr onClick={() => getSelectedCrypto(crypto.id)}>
         <td>{crypto.cmc_rank}</td>
         <td>{crypto.name}</td>
         <td>{crypto.symbol}</td>
         <td>{crypto.quote[selectedCurrency].price}</td>
         <td>{crypto.quote[selectedCurrency].percent_change_24h}</td>
         </tr>
-    ) : null
-    
-    const spinner = props.loading ? (
-        <Spinner animation="border" role="status">
-            <span className="sr-only">Loading...</span>
-        </Spinner>
-    ) : null
+    )
+
     let content = (
         <Container fluid>
         <StyledButton onClick={() => refreshCryptos()}>Refresh</StyledButton>
@@ -40,8 +46,7 @@ const CryptocurrencyList = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {spinner}
-                {cryptosList}
+                {loading ? <LoadingSpinner /> : cryptosList}
             </tbody>
         </Table>
         </Container>
@@ -49,4 +54,18 @@ const CryptocurrencyList = (props) => {
     return content
 };
 
-export default CryptocurrencyList;
+const mapStateToProps = state => {
+    return {
+        cryptos: state.crypto.cryptos,
+        loading: state.crypto.loading,
+        selectedCurrency: state.currency.selectedCurrency
+    };
+};
+  
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchCryptos: (selectedCurrency) => dispatch( fetchCryptos(selectedCurrency) )
+    };
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CryptocurrencyList));

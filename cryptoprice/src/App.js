@@ -21,44 +21,44 @@ const StyledNavbar = styled(Navbar)`
 function App(props) {
   const { cryptos, onFetchCryptos, loading } = props
   const [selectedCurrency, setCurrency] = useState('USD');
-  const [selectedCrypto, setCrypto] = useState(null);
-  const [bitcoin, setBitcoin] = useState(null);
+  // const [selectedCryptoId, setCryptoId] = useState(null);
 
-  useEffect(() => onFetchCryptos(selectedCurrency), [selectedCurrency, onFetchCryptos])
-  const getSelectedCrypto = (selectedCrypto, bitcoin) => {
-    setCrypto(selectedCrypto)
-    setBitcoin(bitcoin)
-    props.history.push('/details')
-  }
+  // const bitcoin = cryptos ? cryptos.find(crypto => crypto.symbol === 'BTC') : null
 
-  const refreshCryptos = () => {
-    onFetchCryptos(selectedCurrency)
-  }
+  // useEffect(() => onFetchCryptos(selectedCurrency), [selectedCurrency, onFetchCryptos])
+  // const getSelectedCrypto = (selectedCryptoId) => {
+  //   setCryptoId(selectedCryptoId)
+  //   props.history.push('/details')
+  // }
+
+  // const refreshCryptos = () => {
+  //   onFetchCryptos(selectedCurrency)
+  // }
 
   return (
     <Container fluid>
       <StyledNavbar cryptos={props.cryptos}/>
-      <Switch>
-      <Route exact path="/" render={(props) => <CryptocurrencyList {...props} cryptos={cryptos} loading={loading} refreshCryptos={refreshCryptos} selectedCurrency={selectedCurrency} getSelectedCrypto={getSelectedCrypto} />} />
-      <Route path="/details" render={(props) => <CryptocurrencyDetails {...props} refreshCryptos={refreshCryptos} selectedCurrency={selectedCurrency} selectedCrypto={selectedCrypto} bitcoin={bitcoin} />} />
-      <Route path="/settings" render={(props) => <Settings {...props} setCurrency={setCurrency} selectedCurrency={selectedCurrency}/>}/>
-      </Switch>
+      {/* <CryptocurrencyList {...props} cryptos={cryptos} loading={loading} refreshCryptos={refreshCryptos} selectedCurrency={selectedCurrency} getSelectedCrypto={getSelectedCrypto} />
+      <CryptocurrencyDetails {...props} selectedCurrency={selectedCurrency} selectedCryptoId={selectedCryptoId} bitcoin={bitcoin} />
+      <Settings {...props} setCurrency={setCurrency} selectedCurrency={selectedCurrency}/> */}
     </Container>
 
   );
 }
 
-const mapStateToProps = state => {
-  return {
-      cryptos: state.crypto.cryptos,
-      loading: state.crypto.loading
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//       cryptos: state.crypto.cryptos,
+//       loading: state.crypto.loading
+//   };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-      onFetchCryptos: (selectedCurrency) => dispatch( fetchCryptos(selectedCurrency) )
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//       onFetchCryptos: (selectedCurrency) => dispatch( fetchCryptos(selectedCurrency) )
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
+// export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
+export default App;
+
