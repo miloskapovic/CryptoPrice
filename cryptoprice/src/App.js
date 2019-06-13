@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { withRouter, BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from 'react-redux'
 
 import { fetchCryptos } from './store/actions/index'
@@ -19,19 +19,27 @@ const StyledNavbar = styled(Navbar)`
 `;
 
 function App(props) {
+  const { cryptos, onFetchCryptos } = props
   const [selectedCurrency, setCurrency] = useState('USD');
-  useEffect(() => props.onFetchCryptos(selectedCurrency), [selectedCurrency])
-  const { cryptos } = props
+  const [selectedCrypto, setCrypto] = useState(null);
+  const [bitcoin, setBitcoin] = useState(null);
+
+  useEffect(() => onFetchCryptos(selectedCurrency), [selectedCurrency, onFetchCryptos])
+  const getSelectedCrypto = (selectedCrypto, bitcoin) => {
+    console.log('selectedCrypto', selectedCrypto)
+    setCrypto(selectedCrypto)
+    setBitcoin(bitcoin)
+    props.history.push('/details')
+  }
+  console.log('test', selectedCrypto)
   return (
     <Container fluid>
-      <Router>
       <StyledNavbar cryptos={props.cryptos}/>
       <Switch>
-      <Route exact path="/" render={(props) => <CryptocurrencyList {...props} cryptos={cryptos} selectedCurrency={selectedCurrency} />} />
-      <Route path="/details" render={(props) => <CryptocurrencyDetails {...props} cryptos={cryptos} selectedCurrency={selectedCurrency} />} />
+      <Route exact path="/" render={(props) => <CryptocurrencyList {...props} cryptos={cryptos} selectedCurrency={selectedCurrency} getSelectedCrypto={getSelectedCrypto} />} />
+      <Route path="/details" render={(props) => <CryptocurrencyDetails {...props} cryptos={cryptos} selectedCurrency={selectedCurrency} selectedCrypto={selectedCrypto} bitcoin={bitcoin} />} />
       <Route path="/settings" render={(props) => <Settings {...props} setCurrency={setCurrency} selectedCurrency={selectedCurrency}/>}/>
       </Switch>
-      </Router>
     </Container>
 
   );
@@ -50,4 +58,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const CryptocurrencyList = (props) => {
-    const { cryptos, selectedCurrency } = props
-    console.log('jaadi list', cryptos[0])
-    const cryptosList = cryptos ? cryptos.map(crypto =>                         <tr>
+    const { cryptos, selectedCurrency, getSelectedCrypto } = props
+    const bitcoin = cryptos ? cryptos.find(crypto => crypto.symbol === 'BTC') : null
+    console.log('jahahahha', bitcoin)
+    const cryptosList = cryptos ? cryptos.map(crypto =>
+        <tr onClick={() => getSelectedCrypto(crypto, bitcoin)}>
         <td>{crypto.cmc_rank}</td>
         <td>{crypto.name}</td>
         <td>{crypto.symbol}</td>
@@ -12,6 +15,7 @@ const CryptocurrencyList = (props) => {
         <td>{crypto.quote[selectedCurrency].percent_change_24h}</td>
         </tr>
     ) : null
+
     let content = (
         <Table striped bordered hover>
             <thead>

@@ -35,7 +35,6 @@ export const fetchCryptos = (currency) => {
                     id: key
                 } );
             }
-            console.log('jeeeee', fetchedCryptos)
             dispatch(fetchCryptosSuccess(res.data.data));
         } )
         .catch( err => {

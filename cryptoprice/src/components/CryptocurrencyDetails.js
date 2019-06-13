@@ -1,51 +1,24 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 
 const CryptocurrencyDetails = (props) => {
-    const { cryptos, selectedCurrency } = props
-    const bitcoin = cryptos.find(crypto => crypto.symbol === 'BTC') || null
-    if (bitcoin) {
-        console.log('jaadi list', 1/bitcoin.price)
-    }
-    const cryptosList = cryptos ? cryptos.map(crypto =>
-    <tr>
-        <td>{crypto.cmc_rank}</td>
-        <td>{crypto.name}</td>
-        <td>{crypto.symbol}</td>
-        <td>{crypto.quote[selectedCurrency].price}</td>
-        <td>{crypto.quote[selectedCurrency].volume_24h}</td>
-        <td>{crypto.quote[selectedCurrency].market_cap}</td>
-        <td>{crypto.quote[selectedCurrency].price * (1/bitcoin.quote[selectedCurrency].price)}</td>
-        <td>{crypto.quote[selectedCurrency].percent_change_1h}</td>
-        <td>{crypto.quote[selectedCurrency].percent_change_24h}</td>
-        <td>{crypto.quote[selectedCurrency].percent_change_7d}</td>
-        <td>{crypto.total_supply}</td>
-        <td>{crypto.circulating_supply}</td>
-        </tr>
+    const { bitcoin, selectedCurrency, selectedCrypto } = props
+    let content = selectedCrypto ? (
+        <ListGroup>
+            <ListGroup.Item>Rank: {selectedCrypto.cmc_rank}</ListGroup.Item>
+            <ListGroup.Item>Name: {selectedCrypto.name}</ListGroup.Item>
+            <ListGroup.Item>Symbol: {selectedCrypto.symbol}</ListGroup.Item>
+            <ListGroup.Item>Price in {selectedCurrency}: {selectedCrypto.quote[selectedCurrency].price}</ListGroup.Item>
+            <ListGroup.Item>Volume: {selectedCrypto.quote[selectedCurrency].volume_24h}</ListGroup.Item>
+            <ListGroup.Item>Market cap: {selectedCrypto.quote[selectedCurrency].market_cap}</ListGroup.Item>
+            <ListGroup.Item>Price in Bitcoin: {selectedCrypto.quote[selectedCurrency].price * (1/bitcoin.quote[selectedCurrency].price)}</ListGroup.Item>
+            <ListGroup.Item>1 hour change: {selectedCrypto.quote[selectedCurrency].percent_change_1h}</ListGroup.Item>
+            <ListGroup.Item>24 hour change: {selectedCrypto.quote[selectedCurrency].percent_change_24h}</ListGroup.Item>
+            <ListGroup.Item>7 day change: {selectedCrypto.quote[selectedCurrency].percent_change_7d}</ListGroup.Item>
+            <ListGroup.Item>Total supply: {selectedCrypto.total_supply}</ListGroup.Item>
+            <ListGroup.Item>Available supply: {selectedCrypto.circulating_supply}</ListGroup.Item>
+        </ListGroup>
     ) : null
-    let content = (
-        <Table striped bordered hover>
-            <thead>
-                <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Price in {props.selectedCurrency}</th>
-                <th>Volume</th>
-                <th>Market cap</th>
-                <th>Price in Bitcoin</th>
-                <th>1 hour change</th>
-                <th>24 hour change</th>
-                <th>7 day change</th>
-                <th>Total supply</th>
-                <th>Available supply</th>
-                </tr>
-            </thead>
-            <tbody>
-                {cryptosList}
-            </tbody>
-        </Table>
-    )
     return content
 };
 
