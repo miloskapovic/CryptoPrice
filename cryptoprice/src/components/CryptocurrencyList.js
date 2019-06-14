@@ -22,7 +22,7 @@ const CryptocurrencyList = (props) => {
     }
 
     const cryptosList = cryptos && cryptos.map(crypto => crypto.quote[selectedCurrency] &&
-        (<tr onClick={() => getSelectedCrypto(crypto.id)}>
+        (<tr key={crypto.id}onClick={() => getSelectedCrypto(crypto.id)}>
         <td>{crypto.cmc_rank}</td>
         <td>{crypto.name}</td>
         <td>{crypto.symbol}</td>
@@ -34,6 +34,8 @@ const CryptocurrencyList = (props) => {
     let content = (
         <Container fluid>
         <StyledButton onClick={() => onFetchCryptos(selectedCurrency)}>Refresh</StyledButton>
+        {loading ? 
+        <LoadingSpinner /> :
         <Table striped bordered hover>
             <thead>
                 <tr>
@@ -45,9 +47,10 @@ const CryptocurrencyList = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {loading ? <LoadingSpinner /> : cryptosList}
+                {cryptosList}
             </tbody>
         </Table>
+        }
         </Container>
     )
     return content

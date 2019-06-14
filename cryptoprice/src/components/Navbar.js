@@ -6,7 +6,7 @@ import SettingsIcon from '../assets/SettingsIcon.png'
 const CurrencyPicker = (props) => {
     let content = (
         <Navbar bg="dark" variant="dark">
-            <Navbar.Brand href="#home">CryptoPrice</Navbar.Brand>
+            <Navbar.Brand>CryptoPrice</Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link as={Link} to="/">Cryptocurrency List</Nav.Link>
             </Nav>
