@@ -7,3 +7,5 @@ export const FETCH_CRYPTO_SUCCESS = 'FETCH_CRYPTO_SUCCESS';
 export const FETCH_CRYPTO_FAIL = 'FETCH_CRYPTO_FAIL';
 
 export const SET_CURRENCY = 'SET_CURRENCY';
+
+export const SET_CRYPTO = 'SET_CRYPTO';

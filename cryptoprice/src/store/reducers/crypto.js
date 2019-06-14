@@ -4,7 +4,16 @@ import { updateObject } from '../utility';
 const initialState = {
     cryptos: [],
     crypto: null,
+    cryptoId: null,
+    bitcoin: null,
     loading: false
+};
+
+const setCrypto = ( state, action ) => {
+    return updateObject( state, {
+        cryptoId: action.cryptoId,
+        bitcoin: action.bitcoin
+    } );
 };
 
 const fetchCryptosStart = ( state, action ) => {
@@ -39,6 +48,7 @@ const fetchCryptoFail = ( state, action ) => {
 
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
+        case actionTypes.SET_CRYPTO: return setCrypto( state, action );
         case actionTypes.FETCH_CRYPTOS_START: return fetchCryptosStart( state, action );
         case actionTypes.FETCH_CRYPTOS_SUCCESS: return fetchCryptosSuccess( state, action );
         case actionTypes.FETCH_CRYPTOS_FAIL: return fetchCryptosFail( state, action );

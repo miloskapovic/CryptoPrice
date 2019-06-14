@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ListGroup, Button, Container } from 'react-bootstrap';
 import styled from 'styled-components';
 import { connect } from 'react-redux'
@@ -20,12 +20,11 @@ const CryptocurrencyDetails = (props) => {
     const { bitcoin, selectedCurrency, selectedCryptoId, onFetchCrypto, crypto, loading } = props
     console.log('jajajaj', selectedCurrency, selectedCryptoId)
     
-    useEffect(() => {
-                onFetchCrypto(selectedCurrency, selectedCryptoId)}, [selectedCurrency, selectedCryptoId, onFetchCrypto])
-    
-    // if (crypto && crypto[selectedCryptoId] && !crypto[selectedCryptoId].quote[selectedCurrency]) {
-    //     onFetchCrypto(selectedCurrency, selectedCryptoId)
-    // }
+    useEffect(() => { onFetchCrypto(selectedCurrency, selectedCryptoId) }, [selectedCurrency, selectedCryptoId, onFetchCrypto])
+    const [currency, setCurrency] = useState('USD');
+    if (currency !== selectedCurrency) {
+        onFetchCrypto(selectedCurrency, selectedCryptoId)
+    }
 
     let content = crypto && (
         <Container>
@@ -60,7 +59,10 @@ const CryptocurrencyDetails = (props) => {
 const mapStateToProps = state => {
     return {
         crypto: state.crypto.crypto,
-        loading: state.crypto.loading
+        selectedCryptoId: state.crypto.cryptoId,
+        bitcoin: state.crypto.bitcoin,
+        loading: state.crypto.loading,
+        selectedCurrency: state.currency.selectedCurrency
     };
 };
   

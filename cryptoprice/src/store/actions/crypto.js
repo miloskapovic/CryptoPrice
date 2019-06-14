@@ -1,6 +1,14 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
+export const setCrypto = ( cryptoId, bitcoin ) => {
+    return {
+        type: actionTypes.SET_CRYPTO,
+        cryptoId: cryptoId,
+        bitcoin: bitcoin
+    };
+};
+
 export const fetchCryptosSuccess = ( cryptos ) => {
     return {
         type: actionTypes.FETCH_CRYPTOS_SUCCESS,

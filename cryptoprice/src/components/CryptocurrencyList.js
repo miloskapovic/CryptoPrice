@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Button, Container } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { withRouter } from "react-router-dom";
 import styled from 'styled-components';
 
-import { fetchCryptos } from '../store/actions/index'
+import { fetchCryptos, setCrypto } from '../store/actions/index'
 import LoadingSpinner from './LoadingSpinner'
 
 const StyledButton = styled(Button)`
@@ -13,13 +13,19 @@ const StyledButton = styled(Button)`
 `
 
 const CryptocurrencyList = (props) => {
-    const { cryptos, selectedCurrency, refreshCryptos, loading, onFetchCryptos } = props
-    console.log('selectedCurrency', loading)
-
+    const { cryptos, selectedCurrency, refreshCryptos, loading, onFetchCryptos, onSetCrypto } = props
+    console.log('selectedCurrency', selectedCurrency)
     useEffect(() => onFetchCryptos(selectedCurrency), [selectedCurrency, onFetchCryptos])
+    // const [currency, setCurrency] = useState('USD');
+    // if (currency !== selectedCurrency) {
+    //     onFetchCryptos(currency)
+    //     setCurrency(selectedCurrency)
+    // }
+
 
     const getSelectedCrypto = (selectedCryptoId) => {
-        // setCryptoId(selectedCryptoId)
+        const bitcoin = cryptos.find(crypto => crypto.symbol === 'BTC')
+        onSetCrypto(selectedCryptoId, bitcoin)
         props.history.push('/details')
     }
     const cryptosList = cryptos && cryptos.map(crypto =>
@@ -41,7 +47,7 @@ const CryptocurrencyList = (props) => {
                 <th>Rank</th>
                 <th>Name</th>
                 <th>Symbol</th>
-                <th>Price in {props.selectedCurrency}</th>
+                <th>Price in {selectedCurrency}</th>
                 <th>24 hour change</th>
                 </tr>
             </thead>
@@ -64,7 +70,8 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchCryptos: (selectedCurrency) => dispatch( fetchCryptos(selectedCurrency) )
+        onFetchCryptos: (selectedCurrency) => dispatch( fetchCryptos(selectedCurrency) ),
+        onSetCrypto: (selectedCurrency, bitcoin) => dispatch( setCrypto(selectedCurrency, bitcoin) )
     };
 };
   

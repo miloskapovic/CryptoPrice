@@ -25,11 +25,9 @@ const app = (
   <Provider store={store}>
     <Router>
       <App />
-      <Switch>
         <Route exact path="/" component={CryptocurrencyList} />
         <Route path="/details" component={CryptocurrencyDetails} />
         <Route path="/settings" component={Settings} />
-      </Switch>
     </Router>
   </Provider>
 )

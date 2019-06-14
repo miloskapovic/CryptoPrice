@@ -1,6 +1,7 @@
 export {
     fetchCryptos,
-    fetchCrypto
+    fetchCrypto,
+    setCrypto
 } from './crypto';
 
 export {
