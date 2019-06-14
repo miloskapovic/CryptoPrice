@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import React from 'react'
+import { Navbar, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import SettingsIcon from '../assets/SettingsIcon.png'
 
@@ -16,6 +16,6 @@ const CurrencyPicker = (props) => {
         </Navbar>
     )
     return content
-};
+}
 
-export default CurrencyPicker;
+export default CurrencyPicker

@@ -1,9 +1,10 @@
 export {
     fetchCryptos,
     fetchCrypto,
+    fetchBitcoin,
     setCrypto
-} from './crypto';
+} from './crypto'
 
 export {
     setCurrency
-} from './currency';
+} from './currency'
